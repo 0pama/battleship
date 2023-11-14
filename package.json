@@ -7,7 +7,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --verbose=true --noStackTrace"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
