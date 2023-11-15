@@ -25,7 +25,7 @@ function enableHumanTurn() {
 
 
 
-const [player1, player2] = initGame()
+const [player1, player2,cords] = await initGame()
 function startGame(player) {
     for (let i = 0; i < player.board.board.length; i++) {
         const div = document.createElement('div')
@@ -131,11 +131,12 @@ function handleShotat(player, e, i) {
         let id = Math.max(w,d)
         console.log('here this friendly id ', id.toString())
 
+        if(!id || id === null ) {
+        id = randomNumber(100)
+        }
         let friendly = document.querySelector(`.id${id}`)
         console.log('here this friendly', friendly)
-        if(!friendly) {
-        friendly = randomNumber(100)
-        }
+
         if (friendly) {
 
 
