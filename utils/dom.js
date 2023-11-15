@@ -8,7 +8,8 @@ const enemyBoard = document.getElementById('enemyBoard')
 // const userSide = document.getElementById('userSide')
 // const enemySide = document.getElementById('enemySide')
 const endGame = document.getElementById('endGame')
-
+const statusText = document.getElementById('status-text')
+        statusText.innerText = 'game started' 
 
 
 
@@ -21,6 +22,7 @@ function enableHumanTurn() {
     userBoard.classList.add("disabled-board");   
     enemyBoard.classList.remove("disabled-board"); 
 }
+
 
 
 const [player1, player2] = initGame()
@@ -55,6 +57,8 @@ function handleShotat(player, e, i) {
     // console.log(board)
     if (turn === 'bot' && player.type === 'human') {
 
+        statusText.innerText = 'enemy turn' 
+
         playSoundEffect('fire')
 
         turn = 'human'
@@ -65,15 +69,19 @@ function handleShotat(player, e, i) {
         setTimeout(() => {
             if (attack) {
 
-                e.target.className = 'missedShot not-allowed'
-                playSoundEffect('hit')
 
+
+
+                    e.target.className = 'missedShot not-allowed'
+
+
+        statusText.innerText = 'enemy shot hit your ship' 
+                    playSoundEffect('hit')
             } else {
+        statusText.innerText = 'enemy missed' 
 
-
-                    e.target.className = 'hitShot not-allowed'
-
-                    playSoundEffect('miss')
+                e.target.className = 'hitShot not-allowed'
+                playSoundEffect('miss')
             }
 
 
@@ -83,6 +91,8 @@ function handleShotat(player, e, i) {
 
 
     if (turn === 'human' && player.type === 'bot') {
+
+        statusText.innerText = 'your turn' 
         playSoundEffect('fire')
 
         turn = 'bot'
@@ -98,6 +108,8 @@ function handleShotat(player, e, i) {
 
                 e.target.className = 'hitShot not-allowed'
                 playSoundEffect('hit')
+
+        statusText.innerText = 'your shot hit a target' 
             }, 2000)
 
         } else {
@@ -106,6 +118,8 @@ function handleShotat(player, e, i) {
 
                 e.target.className = 'missedShot not-allowed'
 
+
+        statusText.innerText = 'you missed' 
                 playSoundEffect('miss')
             }, 2000)
 
@@ -172,7 +186,7 @@ function handleWin(winstr) {
     if (winstr) {
         enemyBoard.innerHTML = ''
         userBoard.innerHTML = ''
-        endGame.innerHTML = winstr
+        statusText.innerText = winstr
 
     }
 } 

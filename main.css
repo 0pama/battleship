@@ -13,7 +13,7 @@
     grid-template-columns: repeat(10, 1fr);
     width: min(90vw, 500px);     /* responsive width with max size */
     aspect-ratio: 1 / 1;         /* keep the board square */
-    border: 2px solid black;
+    /* border: 2px solid black; */
 }
 
 /* Make each cell scale automatically with the board */
@@ -66,8 +66,10 @@ h1 {
 
 
 #status-text::after {
-    content: 'game started...';
-    animation: blink 0.9s ease-in;
+    content: ' ...';
+    align-content: center;
+    justify-content: center;
+    animation: blink 0.9s infinite;
 }
 
 @keyframes blink {
@@ -76,3 +78,4 @@ h1 {
 }
 
 
+ .crosshair {cursor: crosshair;}
