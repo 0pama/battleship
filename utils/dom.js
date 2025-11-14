@@ -1,5 +1,6 @@
 import { initGame } from "./GameController.js"
-import { winningBot } from "./helperfuncs.js"
+import { randomNumber, winningBot } from "./helperfuncs.js"
+import { playSoundEffect } from "./playSound.js"
 
 // const app = document.getElementById('app')
 const userBoard = document.getElementById('userBoard')
@@ -7,6 +8,19 @@ const enemyBoard = document.getElementById('enemyBoard')
 // const userSide = document.getElementById('userSide')
 // const enemySide = document.getElementById('enemySide')
 const endGame = document.getElementById('endGame')
+
+
+
+
+
+function enableBotTurn() {
+    userBoard.classList.add("disabled-board");     
+    enemyBoard.classList.add("disabled-board");
+}
+function enableHumanTurn() {
+    userBoard.classList.add("disabled-board");   
+    enemyBoard.classList.remove("disabled-board"); 
+}
 
 
 const [player1, player2] = initGame()
@@ -41,53 +55,86 @@ function handleShotat(player, e, i) {
     // console.log(board)
     if (turn === 'bot' && player.type === 'human') {
 
+        playSoundEffect('fire')
+
         turn = 'human'
         let attack = board.recieveAttack(i)
         let checkWinstr = checkWin(player1, player2)
-        handleWin (checkWinstr)
-        if (attack) {
+        handleWin(checkWinstr)
 
-            e.target.className = 'hitShot not-allowed'
+        setTimeout(() => {
+            if (attack) {
 
-        } else {
+                e.target.className = 'missedShot not-allowed'
+                playSoundEffect('hit')
 
-            e.target.className = 'missedShot not-allowed'
-        }
+            } else {
 
+
+                    e.target.className = 'hitShot not-allowed'
+
+                    playSoundEffect('miss')
+            }
+
+
+        setTimeout(() =>  enableHumanTurn(),3000)
+        }, 2000)
     }
 
 
     if (turn === 'human' && player.type === 'bot') {
+        playSoundEffect('fire')
 
         turn = 'bot'
         let attack = board.recieveAttack(i)
         let checkWinstr = checkWin(player1, player2)
 
-        handleWin (checkWinstr)
+        handleWin(checkWinstr)
         console.log(checkWinstr)
         if (attack) {
 
-            e.target.className = 'hitShot not-allowed'
+
+            setTimeout(() => {
+
+                e.target.className = 'hitShot not-allowed'
+                playSoundEffect('hit')
+            }, 2000)
 
         } else {
 
-            e.target.className = 'missedShot not-allowed'
-        }
-        console.log('here this friendly id ', i)
+            setTimeout(() => {
 
-        let friendly = document.querySelector(`.id${winningBot()}`)
+                e.target.className = 'missedShot not-allowed'
+
+                playSoundEffect('miss')
+            }, 2000)
+
+        }
+        const w = winningBot()
+        const d = randomNumber(100)
+        console.log(w)
+        console.log(d)
+        let id = Math.max(w,d)
+        console.log('here this friendly id ', id.toString())
+
+        let friendly = document.querySelector(`.id${id}`)
         console.log('here this friendly', friendly)
+        if(!friendly) {
+        friendly = randomNumber(100)
+        }
         if (friendly) {
 
 
-            turn = 'human'
+
+            turn = 'bot'
+            enableBotTurn()
             setTimeout(() => {
-                turn = 'bot'
 
                 friendly.click()
 
                 turn = 'human'
-            }, 1000)
+            }, 7000)
+
 
         } else {
             turn = 'human'
@@ -107,14 +154,14 @@ function checkWin(player1, player2) {
     const ships2 = board2.filter(x => !x.isSunk())
     let winner = ''
     if (ships1.length !== board1.length) {
-        winner = `${player2.type} wins` 
+        winner = `${player2.type} wins`
         return winner
 
     }
     if (ships2.length !== board2.length) {
 
 
-        winner = `${player1.type} wins` 
+        winner = `${player1.type} wins`
         return winner
     }
     return false

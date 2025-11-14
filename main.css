@@ -50,3 +50,29 @@ h1 {
     display: flex;
     justify-content: center;
 }
+
+
+.disabled-board {
+    pointer-events: none;
+    cursor: not-allowed !important;
+    opacity: 0.6; /* optional visual effect */
+}
+
+.enabled-board {
+    pointer-events: auto;
+    cursor: pointer;
+    opacity: 1;
+}
+
+
+#status-text::after {
+    content: 'game started...';
+    animation: blink 0.9s ease-in;
+}
+
+@keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+}
+
+

@@ -3,7 +3,20 @@ export function randomNumber(n) {
 }
 
 
-export function winningBot (cords = [30,44,41, 32, 28, 23,34,64,54]) {
+const seen = new Set(); 
 
-    return cords[Math.floor(Math.random() * cords.length)]
+export function winningBot(cords = [30, 44, 41, 32, 28, 23, 34, 64, 54]) {
+    const available = cords.filter(c => !seen.has(c));
+    
+    if (available.length === 0) {
+        return -1;
+    }
+
+    // Pick a random one from available
+    const choice = available[Math.floor(Math.random() * available.length)];
+
+    // Mark it as seen
+    seen.add(choice);
+
+    return choice;
 }
